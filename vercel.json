@@ -1,0 +1,24 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "dist/index.js",
+            "use": "@vercel/node",
+            "config": { "includeFiles": ["dist/**"] }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "dist/index.js"
+        },
+              {
+                "src": "/api/chatbot",
+                "dest": "src/routes/chatbotRoute.ts",
+                "methods": ["POST"],
+                "apiTimeout": 30000
+              }
+          
+    ]
+}
+
