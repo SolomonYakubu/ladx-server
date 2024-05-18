@@ -49,6 +49,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 
     res.status(201).send({ message: "Account created successfully!" });
   } catch (error: any) {
+    console.log(error.message);
     res.status(400).send({ message: error.message });
   }
 };
