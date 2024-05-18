@@ -22,8 +22,13 @@ exports.messages = messages;
 //Signup
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username, email, password } = req.body;
-        if (!username || !email || !password) {
+        const { firstName, lastName, email, country, phoneNumber, password } = req.body;
+        if (!firstName ||
+            !lastName ||
+            !country ||
+            !phoneNumber ||
+            !email ||
+            !password) {
             throw new Error("Please fill in all fields");
         }
         const existingUser = yield user_1.default.findOne({ email });
@@ -32,12 +37,18 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         const hashedPassword = yield (0, bcrypt_1.hash)(password, 10);
         const newUser = new user_1.default({
-            username, email, password: hashedPassword
+            firstName,
+            lastName,
+            email,
+            country,
+            phoneNumber,
+            password: hashedPassword,
         });
         const savedUser = yield newUser.save();
         res.status(201).send({ message: "Account created successfully!" });
     }
     catch (error) {
+        console.log(error.message);
         res.status(400).send({ message: error.message });
     }
 });
@@ -55,10 +66,12 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             throw new Error("Incorrect password!");
         }
         const token = jsonwebtoken_1.default.sign({
-            userId: user._id, email: user.email, username: user.username
+            userId: user._id,
+            email: user.email,
         }, process.env.JWT_SECRET, { expiresIn: "90d" });
         res.status(200).send({
-            token, id: user.id, username: user.username
+            token,
+            id: user._id,
         });
     }
     catch (error) {
@@ -82,11 +95,11 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         // Respond to the request
         res.status(200).json({
             success: true,
-            message: "Token sent to email"
+            message: "Token sent to email",
         });
     }
     catch (error) {
         res.status(400).send({ message: error.message });
     }
 });
-// , forgotPassword 
+// , forgotPassword

@@ -29,21 +29,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const crypto_1 = __importDefault(require("crypto"));
 const userSchema = new mongoose_1.Schema({
-    username: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    phoneNumber: { type: String, required: true },
     password: { type: String, required: true },
     passwordResetToken: { type: String },
     passwordResetTokenExpires: { type: Date },
-    userMessages: { type: [String], default: [] },
-    botReplies: { type: [String], default: [] },
+    country: { type: String, required: true },
     // createResetPasswordToken(): { type: string },
 });
 userSchema.methods.createResetPasswordToken = function () {
-    const resetToken = crypto_1.default.randomBytes(32).toString('hex');
-    this.passwordResetToken = crypto_1.default.createHash('sha256').update(resetToken).digest('hex');
+    const resetToken = crypto_1.default.randomBytes(32).toString("hex");
+    this.passwordResetToken = crypto_1.default
+        .createHash("sha256")
+        .update(resetToken)
+        .digest("hex");
     this.passwordResetTokenExpires = Date.now() + 10 * 60 * 1000;
     console.log(resetToken, this.passwordResetToken);
     return resetToken;
 };
-const User = mongoose_1.default.model('User', userSchema);
+const User = mongoose_1.default.model("User", userSchema);
 exports.default = User;
