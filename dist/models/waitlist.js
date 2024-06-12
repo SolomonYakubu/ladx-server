@@ -29,7 +29,7 @@ const waitlistSchema = new mongoose_1.Schema({
     email: { type: String, required: true, unique: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    subscribed: { type: Boolean, default: false },
+    subscribe: { type: Boolean, default: false },
 });
 const Waitlist = mongoose_1.default.model("Waitlist", waitlistSchema);
 exports.default = Waitlist;

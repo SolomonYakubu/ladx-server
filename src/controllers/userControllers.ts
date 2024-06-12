@@ -93,7 +93,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
 //waitlist: email, firstname and lastname
 const waitlist = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, firstName, lastName, subscribed } = req.body;
+    const { email, firstName, lastName, subscribe } = req.body;
 
     if (!email || !firstName || !lastName) {
       throw new Error("Please fill in all fields");
@@ -103,7 +103,7 @@ const waitlist = async (req: Request, res: Response): Promise<void> => {
       email,
       firstName,
       lastName,
-      subscribed,
+      subscribe,
     });
 
     const savedWaitlist = await newWaitlist.save();

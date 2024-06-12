@@ -82,7 +82,7 @@ exports.loginUser = loginUser;
 //waitlist: email, firstname and lastname
 const waitlist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, firstName, lastName, subscribed } = req.body;
+        const { email, firstName, lastName, subscribe } = req.body;
         if (!email || !firstName || !lastName) {
             throw new Error("Please fill in all fields");
         }
@@ -90,7 +90,7 @@ const waitlist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             email,
             firstName,
             lastName,
-            subscribed,
+            subscribe,
         });
         const savedWaitlist = yield newWaitlist.save();
         res.status(201).send({ message: "You have been added to the waitlist!" });
