@@ -86,6 +86,11 @@ const waitlist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!email || !firstName || !lastName) {
             throw new Error("Please fill in all fields");
         }
+        //check if email already exist
+        const existingEmail = yield waitlist_1.default.findOne({ email });
+        if (existingEmail) {
+            throw new Error("This email already exists");
+        }
         const newWaitlist = new waitlist_1.default({
             email,
             firstName,

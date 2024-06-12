@@ -98,6 +98,12 @@ const waitlist = async (req: Request, res: Response): Promise<void> => {
     if (!email || !firstName || !lastName) {
       throw new Error("Please fill in all fields");
     }
+    //check if email already exist
+    const existingEmail = await Waitlist.findOne({ email });
+
+    if (existingEmail) {
+      throw new Error("This email already exists");
+    }
 
     const newWaitlist = new Waitlist({
       email,
