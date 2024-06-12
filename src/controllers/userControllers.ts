@@ -1,4 +1,5 @@
 import User from "../models/user";
+import Waitlist from "../models/waitlist";
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -89,6 +90,31 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+//waitlist: email, firstname and lastname
+const waitlist = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, firstName, lastName, subscribed } = req.body;
+
+    if (!email || !firstName || !lastName) {
+      throw new Error("Please fill in all fields");
+    }
+
+    const newWaitlist = new Waitlist({
+      email,
+      firstName,
+      lastName,
+      subscribed,
+    });
+
+    const savedWaitlist = await newWaitlist.save();
+
+    res.status(201).send({ message: "You have been added to the waitlist!" });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(400).send({ message: error.message });
+  }
+};
+
 // forgotPassword
 const forgotPassword = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -120,5 +146,5 @@ const forgotPassword = async (req: Request, res: Response): Promise<void> => {
 
 // }
 
-export { createUser, loginUser, messages };
+export { createUser, loginUser, waitlist };
 // , forgotPassword

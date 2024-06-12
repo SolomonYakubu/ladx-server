@@ -23,13 +23,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const user = __importStar(require("../controllers/userControllers"));
-const express_1 = require("express");
-const router = (0, express_1.Router)();
-//signup
-router.post("/signup", user.createUser);
-//login
-router.post("/login", user.loginUser);
-//waitlist
-router.post("/waitlist", user.waitlist);
-exports.default = router;
+//waitlist model
+const mongoose_1 = __importStar(require("mongoose"));
+const waitlistSchema = new mongoose_1.Schema({
+    email: { type: String, required: true, unique: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    subscribed: { type: Boolean, default: false },
+});
+const Waitlist = mongoose_1.default.model("Waitlist", waitlistSchema);
+exports.default = Waitlist;

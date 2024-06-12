@@ -12,13 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.messages = exports.loginUser = exports.createUser = void 0;
+exports.waitlist = exports.loginUser = exports.createUser = void 0;
 const user_1 = __importDefault(require("../models/user"));
+const waitlist_1 = __importDefault(require("../models/waitlist"));
 const bcrypt_1 = require("bcrypt");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_2 = __importDefault(require("bcrypt"));
 let messages = [];
-exports.messages = messages;
 //Signup
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -79,6 +79,28 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.loginUser = loginUser;
+//waitlist: email, firstname and lastname
+const waitlist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, firstName, lastName, subscribed } = req.body;
+        if (!email || !firstName || !lastName) {
+            throw new Error("Please fill in all fields");
+        }
+        const newWaitlist = new waitlist_1.default({
+            email,
+            firstName,
+            lastName,
+            subscribed,
+        });
+        const savedWaitlist = yield newWaitlist.save();
+        res.status(201).send({ message: "You have been added to the waitlist!" });
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(400).send({ message: error.message });
+    }
+});
+exports.waitlist = waitlist;
 // forgotPassword
 const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

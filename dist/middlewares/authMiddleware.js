@@ -27,7 +27,7 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         if (!user) {
             throw new Error("Invalid token");
         }
-        req.user = { userId: user._id };
+        req.user = { userId: user._id.toString() };
         next();
     }
     catch (error) {

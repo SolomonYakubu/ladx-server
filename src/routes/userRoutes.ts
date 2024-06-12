@@ -8,8 +8,9 @@ const router = Router();
 router.post("/signup", user.createUser);
 
 //login
-router.post("/login", user.loginUser)
+router.post("/login", user.loginUser);
 
+//waitlist
+router.post("/waitlist", user.waitlist);
 
-
-export default router
+export default router;
